@@ -25,6 +25,7 @@ import { Route as SiteStatisticsRouteImport } from './routes/_site/statistics'
 import { Route as SiteStudioRouteImport } from './routes/_site/studio'
 import { Route as SiteTeamAdminRouteImport } from './routes/_site/team-admin'
 import { Route as ApiHealthRouteImport } from './routes/api/health'
+import { Route as ApiSelftestRouteImport } from './routes/api/selftest'
 import { Route as SiteFansIdRouteImport } from './routes/_site/fans.$id'
 import { Route as SiteInviteTokenRouteImport } from './routes/_site/invite.$token'
 import { Route as SiteJoinTokenRouteImport } from './routes/_site/join.$token'
@@ -119,6 +120,11 @@ const SiteTeamAdminRoute = SiteTeamAdminRouteImport.update({
 const ApiHealthRoute = ApiHealthRouteImport.update({
   id: '/api/health',
   path: '/api/health',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSelftestRoute = ApiSelftestRouteImport.update({
+  id: '/api/selftest',
+  path: '/api/selftest',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SiteFansIdRoute = SiteFansIdRouteImport.update({
@@ -218,6 +224,7 @@ export interface FileRoutesByFullPath {
   '/studio': typeof SiteStudioRoute
   '/team-admin': typeof SiteTeamAdminRoute
   '/api/health': typeof ApiHealthRoute
+  '/api/selftest': typeof ApiSelftestRoute
   '/fans/$id': typeof SiteFansIdRoute
   '/invite/$token': typeof SiteInviteTokenRoute
   '/join/$token': typeof SiteJoinTokenRoute
@@ -250,6 +257,7 @@ export interface FileRoutesByTo {
   '/studio': typeof SiteStudioRoute
   '/team-admin': typeof SiteTeamAdminRoute
   '/api/health': typeof ApiHealthRoute
+  '/api/selftest': typeof ApiSelftestRoute
   '/': typeof SiteIndexRoute
   '/fans/$id': typeof SiteFansIdRoute
   '/invite/$token': typeof SiteInviteTokenRoute
@@ -285,6 +293,7 @@ export interface FileRoutesById {
   '/_site/studio': typeof SiteStudioRoute
   '/_site/team-admin': typeof SiteTeamAdminRoute
   '/api/health': typeof ApiHealthRoute
+  '/api/selftest': typeof ApiSelftestRoute
   '/_site/': typeof SiteIndexRoute
   '/_site/fans/$id': typeof SiteFansIdRoute
   '/_site/invite/$token': typeof SiteInviteTokenRoute
@@ -321,6 +330,7 @@ export interface FileRouteTypes {
     | '/studio'
     | '/team-admin'
     | '/api/health'
+    | '/api/selftest'
     | '/fans/$id'
     | '/invite/$token'
     | '/join/$token'
@@ -353,6 +363,7 @@ export interface FileRouteTypes {
     | '/studio'
     | '/team-admin'
     | '/api/health'
+    | '/api/selftest'
     | '/'
     | '/fans/$id'
     | '/invite/$token'
@@ -387,6 +398,7 @@ export interface FileRouteTypes {
     | '/_site/studio'
     | '/_site/team-admin'
     | '/api/health'
+    | '/api/selftest'
     | '/_site/'
     | '/_site/fans/$id'
     | '/_site/invite/$token'
@@ -410,6 +422,7 @@ export interface RootRouteChildren {
   SiteRoute: typeof SiteRouteWithChildren
   ResetPasswordRoute: typeof ResetPasswordRoute
   ApiHealthRoute: typeof ApiHealthRoute
+  ApiSelftestRoute: typeof ApiSelftestRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -524,6 +537,13 @@ declare module '@tanstack/react-router' {
       path: '/api/health'
       fullPath: '/api/health'
       preLoaderRoute: typeof ApiHealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/selftest': {
+      id: '/api/selftest'
+      path: '/api/selftest'
+      fullPath: '/api/selftest'
+      preLoaderRoute: typeof ApiSelftestRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_site/fans/$id': {
@@ -711,6 +731,7 @@ const rootRouteChildren: RootRouteChildren = {
   SiteRoute: SiteRouteWithChildren,
   ResetPasswordRoute: ResetPasswordRoute,
   ApiHealthRoute: ApiHealthRoute,
+  ApiSelftestRoute: ApiSelftestRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
