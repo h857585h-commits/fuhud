@@ -9,50 +9,708 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as SiteRouteImport } from './routes/_site'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as SiteIndexRouteImport } from './routes/_site/index'
+import { Route as SiteAboutRouteImport } from './routes/_site/about'
+import { Route as SiteAdminRouteImport } from './routes/_site/admin'
+import { Route as SiteArchiveRouteImport } from './routes/_site/archive'
+import { Route as SiteNotificationsRouteImport } from './routes/_site/notifications'
+import { Route as SitePeopleRouteImport } from './routes/_site/people'
+import { Route as SitePollsRouteImport } from './routes/_site/polls'
+import { Route as SiteProfileRouteImport } from './routes/_site/profile'
+import { Route as SiteSetupRouteImport } from './routes/_site/setup'
+import { Route as SiteStandingsRouteImport } from './routes/_site/standings'
+import { Route as SiteStatisticsRouteImport } from './routes/_site/statistics'
+import { Route as SiteStudioRouteImport } from './routes/_site/studio'
+import { Route as SiteTeamAdminRouteImport } from './routes/_site/team-admin'
+import { Route as ApiHealthRouteImport } from './routes/api/health'
+import { Route as SiteFansIdRouteImport } from './routes/_site/fans.$id'
+import { Route as SiteInviteTokenRouteImport } from './routes/_site/invite.$token'
+import { Route as SiteJoinTokenRouteImport } from './routes/_site/join.$token'
+import { Route as SiteMatchesIndexRouteImport } from './routes/_site/matches.index'
+import { Route as SiteMatchesIdRouteImport } from './routes/_site/matches.$id'
+import { Route as SiteNewsIndexRouteImport } from './routes/_site/news.index'
+import { Route as SiteNewsIdRouteImport } from './routes/_site/news.$id'
+import { Route as SitePlayersIdRouteImport } from './routes/_site/players.$id'
+import { Route as SiteSocialIndexRouteImport } from './routes/_site/social.index'
+import { Route as SiteTeamsIndexRouteImport } from './routes/_site/teams.index'
+import { Route as SiteTeamsIdRouteImport } from './routes/_site/teams.$id'
+import { Route as SiteTournamentsIndexRouteImport } from './routes/_site/tournaments.index'
+import { Route as SiteTournamentsIdRouteImport } from './routes/_site/tournaments.$id'
+import { Route as SiteSocialChatIndexRouteImport } from './routes/_site/social.chat.index'
+import { Route as SiteSocialChatIdRouteImport } from './routes/_site/social.chat.$id'
+import { Route as SiteSocialPostIdRouteImport } from './routes/_site/social.post.$id'
 
-const IndexRoute = IndexRouteImport.update({
+const SiteRoute = SiteRouteImport.update({
+  id: '/_site',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SiteIndexRoute = SiteIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteAboutRoute = SiteAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteAdminRoute = SiteAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteArchiveRoute = SiteArchiveRouteImport.update({
+  id: '/archive',
+  path: '/archive',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteNotificationsRoute = SiteNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SitePeopleRoute = SitePeopleRouteImport.update({
+  id: '/people',
+  path: '/people',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SitePollsRoute = SitePollsRouteImport.update({
+  id: '/polls',
+  path: '/polls',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteProfileRoute = SiteProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteSetupRoute = SiteSetupRouteImport.update({
+  id: '/setup',
+  path: '/setup',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteStandingsRoute = SiteStandingsRouteImport.update({
+  id: '/standings',
+  path: '/standings',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteStatisticsRoute = SiteStatisticsRouteImport.update({
+  id: '/statistics',
+  path: '/statistics',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteStudioRoute = SiteStudioRouteImport.update({
+  id: '/studio',
+  path: '/studio',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteTeamAdminRoute = SiteTeamAdminRouteImport.update({
+  id: '/team-admin',
+  path: '/team-admin',
+  getParentRoute: () => SiteRoute,
+} as any)
+const ApiHealthRoute = ApiHealthRouteImport.update({
+  id: '/api/health',
+  path: '/api/health',
   getParentRoute: () => rootRouteImport,
+} as any)
+const SiteFansIdRoute = SiteFansIdRouteImport.update({
+  id: '/fans/$id',
+  path: '/fans/$id',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteInviteTokenRoute = SiteInviteTokenRouteImport.update({
+  id: '/invite/$token',
+  path: '/invite/$token',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteJoinTokenRoute = SiteJoinTokenRouteImport.update({
+  id: '/join/$token',
+  path: '/join/$token',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteMatchesIndexRoute = SiteMatchesIndexRouteImport.update({
+  id: '/matches/',
+  path: '/matches/',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteMatchesIdRoute = SiteMatchesIdRouteImport.update({
+  id: '/matches/$id',
+  path: '/matches/$id',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteNewsIndexRoute = SiteNewsIndexRouteImport.update({
+  id: '/news/',
+  path: '/news/',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteNewsIdRoute = SiteNewsIdRouteImport.update({
+  id: '/news/$id',
+  path: '/news/$id',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SitePlayersIdRoute = SitePlayersIdRouteImport.update({
+  id: '/players/$id',
+  path: '/players/$id',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteSocialIndexRoute = SiteSocialIndexRouteImport.update({
+  id: '/social/',
+  path: '/social/',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteTeamsIndexRoute = SiteTeamsIndexRouteImport.update({
+  id: '/teams/',
+  path: '/teams/',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteTeamsIdRoute = SiteTeamsIdRouteImport.update({
+  id: '/teams/$id',
+  path: '/teams/$id',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteTournamentsIndexRoute = SiteTournamentsIndexRouteImport.update({
+  id: '/tournaments/',
+  path: '/tournaments/',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteTournamentsIdRoute = SiteTournamentsIdRouteImport.update({
+  id: '/tournaments/$id',
+  path: '/tournaments/$id',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteSocialChatIndexRoute = SiteSocialChatIndexRouteImport.update({
+  id: '/social/chat/',
+  path: '/social/chat/',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteSocialChatIdRoute = SiteSocialChatIdRouteImport.update({
+  id: '/social/chat/$id',
+  path: '/social/chat/$id',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteSocialPostIdRoute = SiteSocialPostIdRouteImport.update({
+  id: '/social/post/$id',
+  path: '/social/post/$id',
+  getParentRoute: () => SiteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof SiteIndexRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/about': typeof SiteAboutRoute
+  '/admin': typeof SiteAdminRoute
+  '/archive': typeof SiteArchiveRoute
+  '/notifications': typeof SiteNotificationsRoute
+  '/people': typeof SitePeopleRoute
+  '/polls': typeof SitePollsRoute
+  '/profile': typeof SiteProfileRoute
+  '/setup': typeof SiteSetupRoute
+  '/standings': typeof SiteStandingsRoute
+  '/statistics': typeof SiteStatisticsRoute
+  '/studio': typeof SiteStudioRoute
+  '/team-admin': typeof SiteTeamAdminRoute
+  '/api/health': typeof ApiHealthRoute
+  '/fans/$id': typeof SiteFansIdRoute
+  '/invite/$token': typeof SiteInviteTokenRoute
+  '/join/$token': typeof SiteJoinTokenRoute
+  '/matches/$id': typeof SiteMatchesIdRoute
+  '/news/$id': typeof SiteNewsIdRoute
+  '/players/$id': typeof SitePlayersIdRoute
+  '/teams/$id': typeof SiteTeamsIdRoute
+  '/tournaments/$id': typeof SiteTournamentsIdRoute
+  '/matches/': typeof SiteMatchesIndexRoute
+  '/news/': typeof SiteNewsIndexRoute
+  '/social/': typeof SiteSocialIndexRoute
+  '/teams/': typeof SiteTeamsIndexRoute
+  '/tournaments/': typeof SiteTournamentsIndexRoute
+  '/social/chat/$id': typeof SiteSocialChatIdRoute
+  '/social/post/$id': typeof SiteSocialPostIdRoute
+  '/social/chat/': typeof SiteSocialChatIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/about': typeof SiteAboutRoute
+  '/admin': typeof SiteAdminRoute
+  '/archive': typeof SiteArchiveRoute
+  '/notifications': typeof SiteNotificationsRoute
+  '/people': typeof SitePeopleRoute
+  '/polls': typeof SitePollsRoute
+  '/profile': typeof SiteProfileRoute
+  '/setup': typeof SiteSetupRoute
+  '/standings': typeof SiteStandingsRoute
+  '/statistics': typeof SiteStatisticsRoute
+  '/studio': typeof SiteStudioRoute
+  '/team-admin': typeof SiteTeamAdminRoute
+  '/api/health': typeof ApiHealthRoute
+  '/': typeof SiteIndexRoute
+  '/fans/$id': typeof SiteFansIdRoute
+  '/invite/$token': typeof SiteInviteTokenRoute
+  '/join/$token': typeof SiteJoinTokenRoute
+  '/matches/$id': typeof SiteMatchesIdRoute
+  '/news/$id': typeof SiteNewsIdRoute
+  '/players/$id': typeof SitePlayersIdRoute
+  '/teams/$id': typeof SiteTeamsIdRoute
+  '/tournaments/$id': typeof SiteTournamentsIdRoute
+  '/matches': typeof SiteMatchesIndexRoute
+  '/news': typeof SiteNewsIndexRoute
+  '/social': typeof SiteSocialIndexRoute
+  '/teams': typeof SiteTeamsIndexRoute
+  '/tournaments': typeof SiteTournamentsIndexRoute
+  '/social/chat/$id': typeof SiteSocialChatIdRoute
+  '/social/post/$id': typeof SiteSocialPostIdRoute
+  '/social/chat': typeof SiteSocialChatIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_site': typeof SiteRouteWithChildren
+  '/reset-password': typeof ResetPasswordRoute
+  '/_site/about': typeof SiteAboutRoute
+  '/_site/admin': typeof SiteAdminRoute
+  '/_site/archive': typeof SiteArchiveRoute
+  '/_site/notifications': typeof SiteNotificationsRoute
+  '/_site/people': typeof SitePeopleRoute
+  '/_site/polls': typeof SitePollsRoute
+  '/_site/profile': typeof SiteProfileRoute
+  '/_site/setup': typeof SiteSetupRoute
+  '/_site/standings': typeof SiteStandingsRoute
+  '/_site/statistics': typeof SiteStatisticsRoute
+  '/_site/studio': typeof SiteStudioRoute
+  '/_site/team-admin': typeof SiteTeamAdminRoute
+  '/api/health': typeof ApiHealthRoute
+  '/_site/': typeof SiteIndexRoute
+  '/_site/fans/$id': typeof SiteFansIdRoute
+  '/_site/invite/$token': typeof SiteInviteTokenRoute
+  '/_site/join/$token': typeof SiteJoinTokenRoute
+  '/_site/matches/$id': typeof SiteMatchesIdRoute
+  '/_site/news/$id': typeof SiteNewsIdRoute
+  '/_site/players/$id': typeof SitePlayersIdRoute
+  '/_site/teams/$id': typeof SiteTeamsIdRoute
+  '/_site/tournaments/$id': typeof SiteTournamentsIdRoute
+  '/_site/matches/': typeof SiteMatchesIndexRoute
+  '/_site/news/': typeof SiteNewsIndexRoute
+  '/_site/social/': typeof SiteSocialIndexRoute
+  '/_site/teams/': typeof SiteTeamsIndexRoute
+  '/_site/tournaments/': typeof SiteTournamentsIndexRoute
+  '/_site/social/chat/$id': typeof SiteSocialChatIdRoute
+  '/_site/social/post/$id': typeof SiteSocialPostIdRoute
+  '/_site/social/chat/': typeof SiteSocialChatIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/reset-password'
+    | '/about'
+    | '/admin'
+    | '/archive'
+    | '/notifications'
+    | '/people'
+    | '/polls'
+    | '/profile'
+    | '/setup'
+    | '/standings'
+    | '/statistics'
+    | '/studio'
+    | '/team-admin'
+    | '/api/health'
+    | '/fans/$id'
+    | '/invite/$token'
+    | '/join/$token'
+    | '/matches/$id'
+    | '/news/$id'
+    | '/players/$id'
+    | '/teams/$id'
+    | '/tournaments/$id'
+    | '/matches/'
+    | '/news/'
+    | '/social/'
+    | '/teams/'
+    | '/tournaments/'
+    | '/social/chat/$id'
+    | '/social/post/$id'
+    | '/social/chat/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/reset-password'
+    | '/about'
+    | '/admin'
+    | '/archive'
+    | '/notifications'
+    | '/people'
+    | '/polls'
+    | '/profile'
+    | '/setup'
+    | '/standings'
+    | '/statistics'
+    | '/studio'
+    | '/team-admin'
+    | '/api/health'
+    | '/'
+    | '/fans/$id'
+    | '/invite/$token'
+    | '/join/$token'
+    | '/matches/$id'
+    | '/news/$id'
+    | '/players/$id'
+    | '/teams/$id'
+    | '/tournaments/$id'
+    | '/matches'
+    | '/news'
+    | '/social'
+    | '/teams'
+    | '/tournaments'
+    | '/social/chat/$id'
+    | '/social/post/$id'
+    | '/social/chat'
+  id:
+    | '__root__'
+    | '/_site'
+    | '/reset-password'
+    | '/_site/about'
+    | '/_site/admin'
+    | '/_site/archive'
+    | '/_site/notifications'
+    | '/_site/people'
+    | '/_site/polls'
+    | '/_site/profile'
+    | '/_site/setup'
+    | '/_site/standings'
+    | '/_site/statistics'
+    | '/_site/studio'
+    | '/_site/team-admin'
+    | '/api/health'
+    | '/_site/'
+    | '/_site/fans/$id'
+    | '/_site/invite/$token'
+    | '/_site/join/$token'
+    | '/_site/matches/$id'
+    | '/_site/news/$id'
+    | '/_site/players/$id'
+    | '/_site/teams/$id'
+    | '/_site/tournaments/$id'
+    | '/_site/matches/'
+    | '/_site/news/'
+    | '/_site/social/'
+    | '/_site/teams/'
+    | '/_site/tournaments/'
+    | '/_site/social/chat/$id'
+    | '/_site/social/post/$id'
+    | '/_site/social/chat/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  SiteRoute: typeof SiteRouteWithChildren
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  ApiHealthRoute: typeof ApiHealthRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_site': {
+      id: '/_site'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof SiteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_site/': {
+      id: '/_site/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof SiteIndexRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/about': {
+      id: '/_site/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof SiteAboutRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/admin': {
+      id: '/_site/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof SiteAdminRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/archive': {
+      id: '/_site/archive'
+      path: '/archive'
+      fullPath: '/archive'
+      preLoaderRoute: typeof SiteArchiveRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/notifications': {
+      id: '/_site/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof SiteNotificationsRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/people': {
+      id: '/_site/people'
+      path: '/people'
+      fullPath: '/people'
+      preLoaderRoute: typeof SitePeopleRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/polls': {
+      id: '/_site/polls'
+      path: '/polls'
+      fullPath: '/polls'
+      preLoaderRoute: typeof SitePollsRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/profile': {
+      id: '/_site/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof SiteProfileRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/setup': {
+      id: '/_site/setup'
+      path: '/setup'
+      fullPath: '/setup'
+      preLoaderRoute: typeof SiteSetupRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/standings': {
+      id: '/_site/standings'
+      path: '/standings'
+      fullPath: '/standings'
+      preLoaderRoute: typeof SiteStandingsRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/statistics': {
+      id: '/_site/statistics'
+      path: '/statistics'
+      fullPath: '/statistics'
+      preLoaderRoute: typeof SiteStatisticsRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/studio': {
+      id: '/_site/studio'
+      path: '/studio'
+      fullPath: '/studio'
+      preLoaderRoute: typeof SiteStudioRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/team-admin': {
+      id: '/_site/team-admin'
+      path: '/team-admin'
+      fullPath: '/team-admin'
+      preLoaderRoute: typeof SiteTeamAdminRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/api/health': {
+      id: '/api/health'
+      path: '/api/health'
+      fullPath: '/api/health'
+      preLoaderRoute: typeof ApiHealthRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_site/fans/$id': {
+      id: '/_site/fans/$id'
+      path: '/fans/$id'
+      fullPath: '/fans/$id'
+      preLoaderRoute: typeof SiteFansIdRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/invite/$token': {
+      id: '/_site/invite/$token'
+      path: '/invite/$token'
+      fullPath: '/invite/$token'
+      preLoaderRoute: typeof SiteInviteTokenRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/join/$token': {
+      id: '/_site/join/$token'
+      path: '/join/$token'
+      fullPath: '/join/$token'
+      preLoaderRoute: typeof SiteJoinTokenRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/matches/': {
+      id: '/_site/matches/'
+      path: '/matches'
+      fullPath: '/matches/'
+      preLoaderRoute: typeof SiteMatchesIndexRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/matches/$id': {
+      id: '/_site/matches/$id'
+      path: '/matches/$id'
+      fullPath: '/matches/$id'
+      preLoaderRoute: typeof SiteMatchesIdRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/news/': {
+      id: '/_site/news/'
+      path: '/news'
+      fullPath: '/news/'
+      preLoaderRoute: typeof SiteNewsIndexRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/news/$id': {
+      id: '/_site/news/$id'
+      path: '/news/$id'
+      fullPath: '/news/$id'
+      preLoaderRoute: typeof SiteNewsIdRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/players/$id': {
+      id: '/_site/players/$id'
+      path: '/players/$id'
+      fullPath: '/players/$id'
+      preLoaderRoute: typeof SitePlayersIdRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/social/': {
+      id: '/_site/social/'
+      path: '/social'
+      fullPath: '/social/'
+      preLoaderRoute: typeof SiteSocialIndexRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/teams/': {
+      id: '/_site/teams/'
+      path: '/teams'
+      fullPath: '/teams/'
+      preLoaderRoute: typeof SiteTeamsIndexRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/teams/$id': {
+      id: '/_site/teams/$id'
+      path: '/teams/$id'
+      fullPath: '/teams/$id'
+      preLoaderRoute: typeof SiteTeamsIdRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/tournaments/': {
+      id: '/_site/tournaments/'
+      path: '/tournaments'
+      fullPath: '/tournaments/'
+      preLoaderRoute: typeof SiteTournamentsIndexRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/tournaments/$id': {
+      id: '/_site/tournaments/$id'
+      path: '/tournaments/$id'
+      fullPath: '/tournaments/$id'
+      preLoaderRoute: typeof SiteTournamentsIdRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/social/chat/': {
+      id: '/_site/social/chat/'
+      path: '/social/chat'
+      fullPath: '/social/chat/'
+      preLoaderRoute: typeof SiteSocialChatIndexRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/social/chat/$id': {
+      id: '/_site/social/chat/$id'
+      path: '/social/chat/$id'
+      fullPath: '/social/chat/$id'
+      preLoaderRoute: typeof SiteSocialChatIdRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/social/post/$id': {
+      id: '/_site/social/post/$id'
+      path: '/social/post/$id'
+      fullPath: '/social/post/$id'
+      preLoaderRoute: typeof SiteSocialPostIdRouteImport
+      parentRoute: typeof SiteRoute
     }
   }
 }
 
+interface SiteRouteChildren {
+  SiteAboutRoute: typeof SiteAboutRoute
+  SiteAdminRoute: typeof SiteAdminRoute
+  SiteArchiveRoute: typeof SiteArchiveRoute
+  SiteNotificationsRoute: typeof SiteNotificationsRoute
+  SitePeopleRoute: typeof SitePeopleRoute
+  SitePollsRoute: typeof SitePollsRoute
+  SiteProfileRoute: typeof SiteProfileRoute
+  SiteSetupRoute: typeof SiteSetupRoute
+  SiteStandingsRoute: typeof SiteStandingsRoute
+  SiteStatisticsRoute: typeof SiteStatisticsRoute
+  SiteStudioRoute: typeof SiteStudioRoute
+  SiteTeamAdminRoute: typeof SiteTeamAdminRoute
+  SiteIndexRoute: typeof SiteIndexRoute
+  SiteFansIdRoute: typeof SiteFansIdRoute
+  SiteInviteTokenRoute: typeof SiteInviteTokenRoute
+  SiteJoinTokenRoute: typeof SiteJoinTokenRoute
+  SiteMatchesIdRoute: typeof SiteMatchesIdRoute
+  SiteNewsIdRoute: typeof SiteNewsIdRoute
+  SitePlayersIdRoute: typeof SitePlayersIdRoute
+  SiteTeamsIdRoute: typeof SiteTeamsIdRoute
+  SiteTournamentsIdRoute: typeof SiteTournamentsIdRoute
+  SiteMatchesIndexRoute: typeof SiteMatchesIndexRoute
+  SiteNewsIndexRoute: typeof SiteNewsIndexRoute
+  SiteSocialIndexRoute: typeof SiteSocialIndexRoute
+  SiteTeamsIndexRoute: typeof SiteTeamsIndexRoute
+  SiteTournamentsIndexRoute: typeof SiteTournamentsIndexRoute
+  SiteSocialChatIdRoute: typeof SiteSocialChatIdRoute
+  SiteSocialPostIdRoute: typeof SiteSocialPostIdRoute
+  SiteSocialChatIndexRoute: typeof SiteSocialChatIndexRoute
+}
+
+const SiteRouteChildren: SiteRouteChildren = {
+  SiteAboutRoute: SiteAboutRoute,
+  SiteAdminRoute: SiteAdminRoute,
+  SiteArchiveRoute: SiteArchiveRoute,
+  SiteNotificationsRoute: SiteNotificationsRoute,
+  SitePeopleRoute: SitePeopleRoute,
+  SitePollsRoute: SitePollsRoute,
+  SiteProfileRoute: SiteProfileRoute,
+  SiteSetupRoute: SiteSetupRoute,
+  SiteStandingsRoute: SiteStandingsRoute,
+  SiteStatisticsRoute: SiteStatisticsRoute,
+  SiteStudioRoute: SiteStudioRoute,
+  SiteTeamAdminRoute: SiteTeamAdminRoute,
+  SiteIndexRoute: SiteIndexRoute,
+  SiteFansIdRoute: SiteFansIdRoute,
+  SiteInviteTokenRoute: SiteInviteTokenRoute,
+  SiteJoinTokenRoute: SiteJoinTokenRoute,
+  SiteMatchesIdRoute: SiteMatchesIdRoute,
+  SiteNewsIdRoute: SiteNewsIdRoute,
+  SitePlayersIdRoute: SitePlayersIdRoute,
+  SiteTeamsIdRoute: SiteTeamsIdRoute,
+  SiteTournamentsIdRoute: SiteTournamentsIdRoute,
+  SiteMatchesIndexRoute: SiteMatchesIndexRoute,
+  SiteNewsIndexRoute: SiteNewsIndexRoute,
+  SiteSocialIndexRoute: SiteSocialIndexRoute,
+  SiteTeamsIndexRoute: SiteTeamsIndexRoute,
+  SiteTournamentsIndexRoute: SiteTournamentsIndexRoute,
+  SiteSocialChatIdRoute: SiteSocialChatIdRoute,
+  SiteSocialPostIdRoute: SiteSocialPostIdRoute,
+  SiteSocialChatIndexRoute: SiteSocialChatIndexRoute,
+}
+
+const SiteRouteWithChildren = SiteRoute._addFileChildren(SiteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  SiteRoute: SiteRouteWithChildren,
+  ResetPasswordRoute: ResetPasswordRoute,
+  ApiHealthRoute: ApiHealthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
