@@ -1,13 +1,79 @@
 [
- {"capability":"code","source":"Next.js app (30 pages, components, lib)","outcome":"migrate","status":"in_progress","next_action":"Port to TanStack Start"},
- {"capability":"schema","source":"Drizzle schema, 34 tables","outcome":"migrate","status":"done","next_action":"none"},
- {"capability":"records","source":"Replit PostgreSQL","outcome":"migrate","status":"pending","next_action":"User exports table CSVs from Replit Database"},
- {"capability":"auth identities","source":"Custom email/password + sessions table","outcome":"migrate to Lovable Cloud auth, link by verified email","status":"in_progress","next_action":"Import users after export; users reset password on first login"},
- {"capability":"authorization","source":"lib/perms.ts server-side checks","outcome":"preserve (server-side, service role)","status":"in_progress","next_action":"none"},
- {"capability":"uploaded files","source":"Images stored as data URLs inside DB rows","outcome":"migrate with records","status":"pending","next_action":"Comes with record export"},
- {"capability":"public endpoints","source":"/api/action, /api/health","outcome":"preserve","status":"in_progress","next_action":"none"},
- {"capability":"demo seed","source":"lib/seed.ts runtime seeding","outcome":"dropped: app starts empty; first account becomes owner","status":"done","next_action":"none"},
- {"capability":"external providers","source":"none (no payments/email/AI/storage)","outcome":"n/a","status":"done","next_action":"none"},
- {"capability":"schedules/webhooks","source":"none","outcome":"n/a","status":"done","next_action":"none"},
- {"capability":"verification","source":"-","outcome":"-","status":"pending","next_action":"Browser check after build"}
+ {
+  "capability": "code",
+  "source": "Next.js app (30 pages, components, lib)",
+  "outcome": "migrate",
+  "status": "done",
+  "next_action": "none"
+ },
+ {
+  "capability": "schema",
+  "source": "Drizzle schema, 34 tables",
+  "outcome": "migrate",
+  "status": "done",
+  "next_action": "none"
+ },
+ {
+  "capability": "records",
+  "source": "Replit PostgreSQL",
+  "outcome": "migrate",
+  "status": "pending",
+  "next_action": "Export JSON backup from old site dashboard (Backup > Export) and import here, or provide CSVs"
+ },
+ {
+  "capability": "auth identities",
+  "source": "Custom email/password + sessions table",
+  "outcome": "migrate to Lovable Cloud auth, link by verified email",
+  "status": "implemented, not verified",
+  "next_action": "Owner signs up; imported users use first-login link after data import"
+ },
+ {
+  "capability": "authorization",
+  "source": "lib/perms.ts server-side checks",
+  "outcome": "preserve (server-side, service role)",
+  "status": "done",
+  "next_action": "none"
+ },
+ {
+  "capability": "uploaded files",
+  "source": "Images stored as data URLs inside DB rows",
+  "outcome": "migrate with records",
+  "status": "pending",
+  "next_action": "Comes with record export"
+ },
+ {
+  "capability": "public endpoints",
+  "source": "/api/action, /api/health",
+  "outcome": "preserve",
+  "status": "done",
+  "next_action": "none"
+ },
+ {
+  "capability": "demo seed",
+  "source": "lib/seed.ts runtime seeding",
+  "outcome": "dropped: app starts empty; first account becomes owner",
+  "status": "done",
+  "next_action": "none"
+ },
+ {
+  "capability": "external providers",
+  "source": "none (no payments/email/AI/storage)",
+  "outcome": "n/a",
+  "status": "done",
+  "next_action": "none"
+ },
+ {
+  "capability": "schedules/webhooks",
+  "source": "none",
+  "outcome": "n/a",
+  "status": "done",
+  "next_action": "none"
+ },
+ {
+  "capability": "verification",
+  "source": "-",
+  "outcome": "-",
+  "status": "partial",
+  "next_action": "Signed-in flows unverified: no test account could be created"
+ }
 ]
