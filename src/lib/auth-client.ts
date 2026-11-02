@@ -10,6 +10,7 @@ const arabicError = (message: string) => {
   if (/email not confirmed/i.test(message)) return 'أكّد بريدك الإلكتروني أولاً من الرسالة التي وصلتك.';
   if (/already registered|already been registered/i.test(message)) return 'هذا البريد مسجّل مسبقاً. سجّل الدخول، أو اختر «أول دخول / نسيت كلمة المرور».';
   if (/password/i.test(message) && /(weak|short|least|pwned)/i.test(message)) return 'كلمة المرور ضعيفة أو قصيرة — استخدم 8 أحرف على الأقل.';
+  if (/not allowed|invalid.*email|email.*invalid/i.test(message)) return 'هذا البريد غير مقبول. استخدم بريداً حقيقياً يصلك عليه رابط التأكيد.';
   if (/rate limit/i.test(message)) return 'محاولات كثيرة. انتظر قليلاً ثم حاول مجدداً.';
   return message || 'تعذّر تنفيذ العملية';
 };
