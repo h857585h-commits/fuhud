@@ -173,7 +173,7 @@ export async function POST(request: NextRequest) {
       case 'player.save': {
         const teamId = num(p, 'teamId'); if (!can('canManagePlayers')) ownedTeam(teamId); await findTeam(teamId);
         const id = p.id ? num(p, 'id') : 0; if (id && !can('canManagePlayers')) ownedTeam((await findPlayer(id)).teamId!);
-        const number = num(p, 'number', 1, 99); const duplicate = await db.select().from(s.players).where(and(eq(s.players.teamId, teamId), eq(s.players.number, number)));
+        const rawNumber = String(p.number ?? '').trim(); const number = rawNumber === '' || rawNumber === '—' || rawNumber === '-' ? 0 : num(p, 'number', 0, 999); const duplicate = number === 0 ? [] : await db.select().from(s.players).where(and(eq(s.players.teamId, teamId), eq(s.players.number, number)));
         if (duplicate.some(pl => pl.id !== id)) throw new Error('رقم القميص مستخدم بالفعل في هذا الفريق');
         const position = text(p, 'position'); if (!['GK', 'DEF', 'MID', 'FW'].includes(position)) throw new Error('المركز غير صالح');
         const values = { teamId, name: text(p, 'name', 100), age: num(p, 'age', 12, 65), number, position, photo: mediaUrl(text(p, 'photo', 2000000, false)), bio: text(p, 'bio', 3000, false) };
@@ -341,7 +341,7 @@ export async function POST(request: NextRequest) {
       case 'event.add': {
         const matchIdForRef = num(p, 'matchId'); if (!can('canEditMatches') && !can('canRefereeAnyMatch') && !(await canOfficiate(matchIdForRef))) throw new Error('تعديل الأحداث متاح لمدير المنصة، أو من يملك صلاحية تعديل المباريات، أو حكم المباراة المعتمد');
         const m = await findMatch(matchIdForRef); const teamId = num(p, 'teamId'); if (![m.homeId, m.awayId].includes(teamId)) throw new Error('الفريق ليس طرفاً في المباراة');
-        const type = text(p, 'type'); if (!['goal', 'yellow', 'red', 'own-goal'].includes(type)) throw new Error('نوع الحدث غير صالح');
+        const type = text(p, 'type'); if (!['goal', 'yellow', 'red', 'own-goal', 'sub'].includes(type)) throw new Error('نوع الحدث غير صالح');
         const player = await findPlayer(num(p, 'playerId')); if (player.teamId !== teamId) throw new Error('اللاعب لا ينتمي إلى الفريق المحدد');
         const assistId = p.assistId ? num(p, 'assistId') : null; if (assistId && (await findPlayer(assistId)).teamId !== teamId) throw new Error('صانع الهدف لا ينتمي إلى الفريق');
         const addedEvent = await db.transaction(async tx => { const [row] = await tx.insert(s.matchEvents).values({ matchId: m.id, teamId, playerId: player.id, assistId: type === 'goal' ? assistId : null, type, minute: num(p, 'minute', 1, 120) }).returning(); if (type === 'goal' || type === 'own-goal') { const scoring = type === 'own-goal' ? (teamId === m.homeId ? 'awayScore' : 'homeScore') : teamId === m.homeId ? 'homeScore' : 'awayScore'; await tx.update(s.matches).set({ [scoring]: m[scoring] + 1, status: m.status === 'scheduled' ? 'live' : m.status }).where(eq(s.matches.id, m.id)); } return row; }); result.id = addedEvent.id; break;
