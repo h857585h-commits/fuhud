@@ -45,7 +45,7 @@ export function EntityForm({ state, onClose }: { state: FormState; onClose: () =
   if (type === 'gallery') content = <>{select('teamId', 'الفريق', editableTeams)}{select('type', 'نوع المحتوى', [{ value: 'image', label: 'صورة' }, { value: 'video', label: 'فيديو' }])}<div className="full">{field('caption', 'وصف اللقطة', 'text', { required: true })}</div>{v('type') === 'image' ? <div className="full"><ImageUpload value={v('url')} onChange={value => set('url', value)} /><input type="hidden" name="url" value={v('url')} /></div> : field('url', 'رابط الفيديو المباشر', 'url', { required: true, placeholder: 'https://example.com/video.mp4' })}<p className="full text-xs muted">استخدم رابط فيديو مباشر بصيغة MP4. يمكن تشغيله داخل معرض الفريق.</p></>;
   if (type === 'career') content = <>{field('teamName', 'اسم الفريق السابق', 'text', { required: true })}{field('fromYear', 'من سنة', 'number', { min: 1980, max: 2026, required: true })}{field('toYear', 'إلى سنة', 'number', { min: 1980, max: 2026 })}</>;
   async function submit() {
-    setBusy(true); setError(''); let action = `${type}.save`; if (type === 'score') action = 'match.score';
+    setBusy(true); setError(''); let action = `${type}.save`; if (type === 'score') action = 'match.score'; if (type === 'event') action = 'event.add';
     const payload = { ...values }; if (type === 'team') { payload.approved = document.querySelector<HTMLInputElement>('[name="approved"]')?.checked ?? true; }
     if (type === 'poll' && initial.id) delete payload.active;
     if (type === 'poll') payload.active = document.querySelector<HTMLInputElement>('[name="active"]')?.checked ?? true;
