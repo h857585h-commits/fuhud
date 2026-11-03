@@ -11,7 +11,8 @@ import { ExportStudio, type ExportTarget } from './export-studio';
 
 type Result = { ok?: boolean; error?: string; message?: string; id?: number; token?: string; count?: number; needsConfirm?: boolean; [key: string]: unknown };
 type AppContextType = { data: Snapshot; act: (action: string, payload?: Record<string, unknown>, options?: { silent?: boolean; refresh?: boolean }) => Promise<Result | null>; notify: (message: string, error?: boolean) => void; openExport: (target: ExportTarget) => void; openLogin: () => void; openForm: (type: string, initial?: Record<string, unknown>) => void; remove: (action: string, id: number, label?: string) => Promise<void> };
-const AppContext = createContext<AppContextType | null>(null);
+const contextStore = globalThis as unknown as { __manarAppContext?: ReturnType<typeof createContext<AppContextType | null>> };
+const AppContext = contextStore.__manarAppContext ??= createContext<AppContextType | null>(null);
 export function useApp() { const context = useContext(AppContext); if (!context) throw new Error('يجب استخدام المزود'); return context; }
 export function AppProvider({ data, children }: { data: Snapshot; children: ReactNode }) {
   const router = useRouter(); const [toast, setToast] = useState<{ message: string; error: boolean } | null>(null); const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
