@@ -101,7 +101,7 @@ export const referees = pgTable('referees', {
   id: integer().primaryKey().generatedByDefaultAsIdentity(), name: text().notNull(), phone: text().notNull().default(''),
   userId: integer().unique().references(() => users.id, { onDelete: 'set null' }),
   photo: text().notNull().default(''), badgeNumber: text().notNull().default(''),
-  officialStatus: text().notNull().default('official'), leagueName: text().notNull().default('دوري الناصرية الشعبي'),
+  age: integer(), officialStatus: text().notNull().default('official'), leagueName: text().notNull().default('دوري الناصرية الشعبي'),
 });
 export const announcements = pgTable('announcements', {
   id: integer().primaryKey().generatedByDefaultAsIdentity(), text: text().notNull(), active: boolean().notNull().default(true),

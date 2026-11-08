@@ -1,0 +1,1 @@
+ALTER TABLE public.referees ADD COLUMN IF NOT EXISTS age integer;

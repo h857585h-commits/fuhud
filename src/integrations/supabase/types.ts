@@ -1063,6 +1063,7 @@ export type Database = {
       }
       referees: {
         Row: {
+          age: number | null
           badgeNumber: string
           id: number
           leagueName: string
@@ -1073,6 +1074,7 @@ export type Database = {
           userId: number | null
         }
         Insert: {
+          age?: number | null
           badgeNumber?: string
           id?: number
           leagueName?: string
@@ -1083,6 +1085,7 @@ export type Database = {
           userId?: number | null
         }
         Update: {
+          age?: number | null
           badgeNumber?: string
           id?: number
           leagueName?: string
