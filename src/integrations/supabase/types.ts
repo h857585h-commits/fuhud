@@ -527,15 +527,19 @@ export type Database = {
           homeScore: number
           id: number
           minute: number
+          motmPlayerId: number | null
           penaltyAway: number | null
           penaltyHome: number | null
           referee: string
           refereeId: number | null
+          refereeNames: Json
           report: string
           round: string
+          sheetNumber: number | null
           stadium: string
           stage: string
           status: string
+          supervisor: string
           time: string
           tournamentId: number | null
           views: number
@@ -550,15 +554,19 @@ export type Database = {
           homeScore?: number
           id?: number
           minute?: number
+          motmPlayerId?: number | null
           penaltyAway?: number | null
           penaltyHome?: number | null
           referee?: string
           refereeId?: number | null
+          refereeNames?: Json
           report?: string
           round?: string
+          sheetNumber?: number | null
           stadium: string
           stage?: string
           status?: string
+          supervisor?: string
           time: string
           tournamentId?: number | null
           views?: number
@@ -573,15 +581,19 @@ export type Database = {
           homeScore?: number
           id?: number
           minute?: number
+          motmPlayerId?: number | null
           penaltyAway?: number | null
           penaltyHome?: number | null
           referee?: string
           refereeId?: number | null
+          refereeNames?: Json
           report?: string
           round?: string
+          sheetNumber?: number | null
           stadium?: string
           stage?: string
           status?: string
+          supervisor?: string
           time?: string
           tournamentId?: number | null
           views?: number
@@ -599,6 +611,13 @@ export type Database = {
             columns: ["homeId"]
             isOneToOne: false
             referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "matches_motmPlayerId_fkey"
+            columns: ["motmPlayerId"]
+            isOneToOne: false
+            referencedRelation: "players"
             referencedColumns: ["id"]
           },
           {
@@ -902,7 +921,9 @@ export type Database = {
           number: number
           photo: string
           position: string
+          season: string
           teamId: number | null
+          userId: number | null
         }
         Insert: {
           age: number
@@ -912,7 +933,9 @@ export type Database = {
           number: number
           photo?: string
           position: string
+          season?: string
           teamId?: number | null
+          userId?: number | null
         }
         Update: {
           age?: number
@@ -922,7 +945,9 @@ export type Database = {
           number?: number
           photo?: string
           position?: string
+          season?: string
           teamId?: number | null
+          userId?: number | null
         }
         Relationships: [
           {
@@ -930,6 +955,13 @@ export type Database = {
             columns: ["teamId"]
             isOneToOne: false
             referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "players_userId_fkey"
+            columns: ["userId"]
+            isOneToOne: false
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
@@ -967,21 +999,27 @@ export type Database = {
         Row: {
           active: boolean
           description: string
+          endsAt: string | null
           id: number
+          image: string
           options: Json
           question: string
         }
         Insert: {
           active?: boolean
           description?: string
+          endsAt?: string | null
           id?: number
+          image?: string
           options?: Json
           question: string
         }
         Update: {
           active?: boolean
           description?: string
+          endsAt?: string | null
           id?: number
+          image?: string
           options?: Json
           question?: string
         }
@@ -1188,6 +1226,54 @@ export type Database = {
         }
         Relationships: []
       }
+      staff: {
+        Row: {
+          age: number | null
+          bio: string
+          id: number
+          name: string
+          photo: string
+          role: string
+          teamId: number | null
+          userId: number | null
+        }
+        Insert: {
+          age?: number | null
+          bio?: string
+          id?: number
+          name: string
+          photo?: string
+          role?: string
+          teamId?: number | null
+          userId?: number | null
+        }
+        Update: {
+          age?: number | null
+          bio?: string
+          id?: number
+          name?: string
+          photo?: string
+          role?: string
+          teamId?: number | null
+          userId?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "staff_teamId_fkey"
+            columns: ["teamId"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "staff_userId_fkey"
+            columns: ["userId"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       stories: {
         Row: {
           archived: boolean
@@ -1234,6 +1320,74 @@ export type Database = {
             columns: ["userId"]
             isOneToOne: false
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      suspensions: {
+        Row: {
+          active: boolean
+          endsAt: string | null
+          id: number
+          issuedOn: string
+          matchCount: number
+          playerId: number
+          startMatchId: number
+          teamId: number
+          tournamentId: number
+          type: string
+        }
+        Insert: {
+          active?: boolean
+          endsAt?: string | null
+          id?: number
+          issuedOn: string
+          matchCount?: number
+          playerId: number
+          startMatchId: number
+          teamId: number
+          tournamentId: number
+          type?: string
+        }
+        Update: {
+          active?: boolean
+          endsAt?: string | null
+          id?: number
+          issuedOn?: string
+          matchCount?: number
+          playerId?: number
+          startMatchId?: number
+          teamId?: number
+          tournamentId?: number
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "suspensions_playerId_fkey"
+            columns: ["playerId"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "suspensions_startMatchId_fkey"
+            columns: ["startMatchId"]
+            isOneToOne: false
+            referencedRelation: "matches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "suspensions_teamId_fkey"
+            columns: ["teamId"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "suspensions_tournamentId_fkey"
+            columns: ["tournamentId"]
+            isOneToOne: false
+            referencedRelation: "tournaments"
             referencedColumns: ["id"]
           },
         ]
