@@ -45,6 +45,7 @@ export async function handleSocial(action: string, p: Payload, me: CurrentUser |
 
   // ─────────── Posts & reels ───────────
   if (action === 'post.create') {
+    if ((await settings())?.moderation?.allowPosts === false && !isSuper) throw new Error('نشر المنشورات متوقف حالياً من إدارة المنصة');
     const user = needsAccount(); await actor(user.id);
     const cfg = await settings();
     const type = str(p, 'type', 12) || 'text';
@@ -136,6 +137,7 @@ export async function handleSocial(action: string, p: Payload, me: CurrentUser |
     const user = needsAccount(); const account = await actor(user.id);
     if (account.mutedUntil && account.mutedUntil > new Date()) throw new Error('أنت مكتوم مؤقتاً — لا يمكنك التعليق الآن');
     const cfg = await settings();
+    if (cfg?.moderation?.allowComments === false && !isSuper) throw new Error('التعليقات متوقفة حالياً من إدارة المنصة');
     const targetType = str(p, 'targetType', 12, true); const targetId = int(p, 'targetId', 1);
     const body = str(p, 'body', 1000, true); const mediaUrl = media(str(p, 'mediaUrl', 900000), 'image');
     const parentId = p.parentId ? int(p, 'parentId', 1) : null;
@@ -463,10 +465,10 @@ export async function handleSocial(action: string, p: Payload, me: CurrentUser |
   if (action === 'settings.save') {
     if (!isSuper) throw new Error('لمدير المنصة فقط');
     const labels: Record<string, string> = {}; for (const key of ['matches', 'teams', 'tournaments', 'standings', 'statistics', 'news', 'polls', 'archive', 'about', 'social', 'studio']) { const v = str(p, `label_${key}`, 40); if (v) labels[key] = v; }
-    const moderation = { posts: p.moderatePosts === true, stories: p.moderateStories === true, comments: p.moderateComments !== false };
+    const moderation = { posts: p.moderatePosts === true, stories: p.moderateStories === true, comments: p.moderateComments !== false, allowPosts: p.allowPosts !== false, allowComments: p.allowComments !== false, allowSignup: p.allowSignup !== false };
     const followerLists: 'public' | 'logged' | 'self' = p.followerLists === 'public' ? 'public' : p.followerLists === 'self' ? 'self' : 'logged';
-    const values = { labels, moderation, privacy: { followerLists } };
     const [row] = await db.select().from(s.siteSettings).limit(1);
+    const values = { labels: Object.keys(labels).length || p.saveLabels === true ? labels : (row?.labels ?? {}), moderation, privacy: { followerLists } };
     if (row) await db.update(s.siteSettings).set(values).where(eq(s.siteSettings.id, row.id)); else await db.insert(s.siteSettings).values(values);
     return NextResponse.json({ ok: true, message: 'حُدّثت إعدادات الواجهة والصلاحيات' });
   }

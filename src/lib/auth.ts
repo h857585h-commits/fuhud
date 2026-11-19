@@ -43,6 +43,7 @@ export async function getCurrentUser() {
     if (taken) return null; // email already linked to another sign-in; never merge silently
     const [any] = await db.select({ id: s.users.id }).from(s.users).limit(1);
     let role = any ? 'fan' : 'super'; let teamId: number | undefined;
+    if (any && !identity.invite) { const [cfg] = await db.select({ moderation: s.siteSettings.moderation }).from(s.siteSettings).limit(1); if (cfg?.moderation?.allowSignup === false) return null; }
     if (identity.invite && any) {
       const [invite] = await db.update(s.invites).set({ used: true }).where(and(eq(s.invites.token, identity.invite), eq(s.invites.used, false), gt(s.invites.expiresAt, new Date()))).returning();
       if (invite) { role = 'team'; teamId = invite.teamId; }
