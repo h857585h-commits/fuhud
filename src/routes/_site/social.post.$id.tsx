@@ -1,3 +1,4 @@
+import { brandMeta } from "@/lib/brand";
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import Link from "@/lib/next-shims/link";
@@ -6,13 +7,15 @@ import { useApp } from "@/components/context";
 import { NotFoundView } from "@/components/not-found";
 
 export const Route = createFileRoute("/_site/social/post/$id")({
-  head: () => ({
-    meta: [
-      { title: "منشور | كرة المنار" },
-      { name: "description", content: "منشور وتعليقات من ساحة جماهير كرة المنار." },
-      { property: "og:title", content: "منشور | كرة المنار" },
-      { property: "og:description", content: "منشور وتعليقات من ساحة جماهير كرة المنار." },
-    ],
+  head: ({ matches }) => ({
+    meta: brandMeta([
+      { title: "منشور | منصة الفهود الرياضية" },
+      { name: "description", content: "منشور وتعليقات من ساحة جماهير منصة الفهود الرياضية." },
+      { property: "og:title", content: "منشور | منصة الفهود الرياضية" },
+      { property: "og:description", content: "منشور وتعليقات من ساحة جماهير منصة الفهود الرياضية." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ], matches),
   }),
   component: Page,
 });

@@ -7,7 +7,7 @@ import { Spinner, FormField } from './ui';
 
 /** One-time owner creation for a fresh deployment. Self-closes once an account exists. */
 export function SetupForm({ seedEnabled = false }: { seedEnabled?: boolean }) {
-  const { act } = useApp(); const router = useRouter();
+  const { act, data } = useApp(); const router = useRouter();
   const [name, setName] = useState(''); const [email, setEmail] = useState(''); const [password, setPassword] = useState('');
   const [busy, setBusy] = useState(false); const [error, setError] = useState('');
   async function submit(e: React.FormEvent) {
@@ -21,13 +21,13 @@ export function SetupForm({ seedEnabled = false }: { seedEnabled?: boolean }) {
   return <div className="max-w-xl mx-auto py-6">
     <div className="text-center mb-7">
       <div className="w-16 h-16 mx-auto rounded-2xl bg-mint/10 border border-mint/25 flex items-center justify-center mb-4"><Crown size={30} className="mint" /></div>
-      <h1 className="text-2xl sm:text-3xl">إطلاق <span className="mint">كرة المنار</span></h1>
+      <h1 className="text-2xl sm:text-3xl">إطلاق <span className="mint">{data.branding?.siteName || 'منصة الفهود الرياضية'}</span></h1>
       <p className="text-xs muted leading-7 mt-3">{seedEnabled ? 'قاعدة البيانات تجريبية ومهيئة مسبقاً. لتجربة سريعة ادخل من «تسجيل الدخول» بالحسابات التجريبية، أو تابع لإنشاء مالك جديد.' : 'لا يوجد أي حساب بعد. أنشئ حساب مدير المنصة (حسن) — وهذا آخر خطوة قبل فتح الملعب.'}</p>
     </div>
     <div className="panel p-6 sm:p-7">
       <form onSubmit={submit} className="flex flex-col gap-4">
         <FormField label="اسم المدير" hint="الاسم الذي يظهر في الترحيب وقائمة الحساب."><input className="input" value={name} onChange={e => setName(e.target.value)} required minLength={2} maxLength={70} placeholder="حسن" /></FormField>
-        <FormField label="البريد الإلكتروني" hint="سيكون اسم الدخول في كل مرة."><input className="input" type="email" dir="ltr" value={email} onChange={e => setEmail(e.target.value)} required placeholder="owner@manar.iq" autoComplete="email" /></FormField>
+        <FormField label="البريد الإلكتروني" hint="سيكون اسم الدخول في كل مرة."><input className="input" type="email" dir="ltr" value={email} onChange={e => setEmail(e.target.value)} required placeholder="البريد الإلكتروني" autoComplete="email" /></FormField>
         <FormField label="كلمة المرور" hint="8 أحرف على الأقل. غير قابلة للاسترجاع — احفظها في مكان آمن."><input className="input" type="password" dir="ltr" value={password} onChange={e => setPassword(e.target.value)} required minLength={8} placeholder="••••••••" autoComplete="new-password" /></FormField>
         {error && <p className="form-error" role="alert">{error}</p>}
         <button className="btn btn-primary w-full mt-1" disabled={busy}>{busy ? <Spinner /> : <ShieldCheck size={16} />}إنشاء حساب المدير وبدء المنصة</button>

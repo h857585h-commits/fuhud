@@ -47,7 +47,7 @@ export function ProfileView() {
     notify('نُسخةك الاحتياطية الشخصية جاهزة — احفظها عندك.');
   }
   async function importAccount(file: File) {
-    try { const parsed = JSON.parse(await file.text()) as Record<string, unknown>; if (parsed.app !== 'manar-user-backup') throw new Error('الملف ليس نسخة شخصية من كرة المنار'); setBusy(true); await act('account.import', { data: parsed }, { silent: true }); setBusy(false); notify('استُعيدت بياناتك الشخصية'); router.refresh(); }
+    try { const parsed = JSON.parse(await file.text()) as Record<string, unknown>; if (parsed.app !== 'manar-user-backup') throw new Error('الملف ليس نسخة شخصية من منصة الفهود الرياضية'); setBusy(true); await act('account.import', { data: parsed }, { silent: true }); setBusy(false); notify('استُعيدت بياناتك الشخصية'); router.refresh(); }
     catch (e) { setBusy(false); notify((e as Error).message, true); }
   }
   return <>

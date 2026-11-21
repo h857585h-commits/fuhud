@@ -101,7 +101,7 @@ export function PostCard({ post, showAllComments = false }: { post: Post; showAl
   async function share() {
     const url = `${window.location.origin}/social/post/${post.id}`;
     const native = navigator as Navigator & { share?: (d: ShareData) => Promise<void> };
-    try { if (native.share) await native.share({ title: 'كرة المنار', text: post.body.slice(0, 120), url }); else { await copyText(url); notify('نُسخ رابط المنشور — شاركه وين ما تحب'); } } catch { /* the share sheet was dismissed */ }
+    try { if (native.share) await native.share({ title: 'منصة الفهود الرياضية', text: post.body.slice(0, 120), url }); else { await copyText(url); notify('نُسخ رابط المنشور — شاركه وين ما تحب'); } } catch { /* the share sheet was dismissed */ }
   }
   const isLiked = c.mine('like'); const isLoved = c.mine('love'); const isSaved = c.mine('save');
   const shown = openAll ? comments : comments.slice(0, 3);
@@ -396,7 +396,7 @@ export function ReelsPlayer() {
       <div className="reel-info">
         <UserName user={author} />
         <p>{post.body}</p>
-        <div className="reel-music"><Volume2 size={12} />صوت المدرجات · ناصرية #كرة_المنار</div>
+        <div className="reel-music"><Volume2 size={12} />صوت المدرجات · ناصرية #الفهود_الرياضية</div>
       </div>
     </div>;
   })}</div>;
@@ -407,7 +407,7 @@ export function SocialHub({ initialTag }: { initialTag?: string }) {
   const [tag, setTag] = useState((initialTag || '').replace('#', '').toLowerCase()); const [team, setTeam] = useState('all');
   const posts = data.posts.filter(p => !tag || p.body.toLowerCase().includes(tag) || p.hashtags.some(h => h.toLowerCase().includes(tag))).filter(p => team === 'all' || p.teamId === Number(team));
   return <>
-    <div className="page-heading"><div><div className="tagline"><Users size={12} />مجتمع كرة المنار</div><h1>الساحة</h1><p>منشورات، صور، ريلز، ستوري وملاحظات — بصوت جماهير الناصرية.</p></div>
+    <div className="page-heading"><div><div className="tagline"><Users size={12} />مجتمع منصة الفهود الرياضية</div><h1>الساحة</h1><p>منشورات، صور، ريلز، ستوري وملاحظات — بصوت جماهير الفهود.</p></div>
       <div className="tabs">{[['feed', 'المنشورات'], ['stories', 'الستوري والملاحظات'], ['reels', 'الريلز']].map(([k, label]) => <button key={k} className={`tab ${tab === k ? 'active' : ''}`} onClick={() => setTab(k as 'feed')}>{label}</button>)}</div></div>
     {tab === 'feed' && <>
       <div className="data-toolbar">

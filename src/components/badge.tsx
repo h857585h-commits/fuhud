@@ -102,7 +102,7 @@ export function VerificationCard({ user }: { user?: MiniUser | null }) {
       <VerifyMark level={level} size={26} user={user} />
       <div className="flex-1 min-w-0">
         <b className="text-xs block">حساب موثق رسمياً</b>
-        <p className="text-[10px] leading-6 mt-1 opacity-85">{user.verifiedNote || 'موثّق من إدارة كرة المنار لوضوح هويته في المنصة.'}</p>
+        <p className="text-[10px] leading-6 mt-1 opacity-85">{user.verifiedNote || 'موثّق من إدارة منصة الفهود الرياضية لوضوح هويته في المنصة.'}</p>
         <span className="text-[9px] opacity-70 block mt-1">{user.verifiedByName ? `أصدرها ${user.verifiedByName}` : 'إدارة المنصة'}{date ? ` · ${date}` : ''}</span>
       </div>
       <span className={`vcard-level vcard-level-${level}`}>{VERIFY_LEVELS[level].label}</span>

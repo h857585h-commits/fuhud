@@ -10,6 +10,7 @@
 <!-- LOVABLE:END -->
 
 ## Architecture rules
+- Public identity defaults and resolution live in `src/lib/brand.ts`; editable copy uses the existing branding snapshot/action so one saved identity drives pages, metadata and exports.
 - Data access: all reads/writes go through server code using Drizzle in proxy mode (`src/db/index.ts`) which executes SQL via the service-role-only `app_exec` database function; tables have RLS on with no client policies. Why: the app's permission logic (`src/lib/perms.ts`) lives server-side and the runtime has no raw Postgres socket.
 - Never call `app_exec` from browser code or grant it to anon/authenticated; it runs arbitrary SQL.
 - Classify statement mode on the parameterised SQL, and inline params only via `inlineParams` (single pass). Why: values must never change the query shape.

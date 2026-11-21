@@ -36,7 +36,7 @@ function SiteLayout() {
     b.panel ? `--panel:${safe(b.panel, "#19272e")}` : "",
     b.accent ? `--gold:${safe(b.accent, "#e9ce83")}` : "",
   ].filter(Boolean).join(";");
-  const title = text(b.siteName || "كرة المنار", 60);
+  const title = text(b.siteName || "منصة الفهود الرياضية", 60);
   return (
     <AppProvider data={data}>
       {vars ? <style dangerouslySetInnerHTML={{ __html: `:root,html[data-theme=dark]{${vars}}` }} /> : null}

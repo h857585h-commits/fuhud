@@ -1,16 +1,19 @@
+import { brandMeta } from "@/lib/brand";
 import { createFileRoute } from "@tanstack/react-router";
 import { NewsDetail } from "@/components/details";
 import { useApp } from "@/components/context";
 import { NotFoundView } from "@/components/not-found";
 
 export const Route = createFileRoute("/_site/news/$id")({
-  head: () => ({
-    meta: [
-      { title: "خبر | كرة المنار" },
-      { name: "description", content: "خبر من قلب ملاعب الناصرية." },
-      { property: "og:title", content: "خبر | كرة المنار" },
-      { property: "og:description", content: "خبر من قلب ملاعب الناصرية." },
-    ],
+  head: ({ matches }) => ({
+    meta: brandMeta([
+      { title: "خبر | منصة الفهود الرياضية" },
+      { name: "description", content: "خبر من قلب ملاعب الفهود." },
+      { property: "og:title", content: "خبر | منصة الفهود الرياضية" },
+      { property: "og:description", content: "خبر من قلب ملاعب الفهود." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ], matches),
   }),
   component: Page,
 });

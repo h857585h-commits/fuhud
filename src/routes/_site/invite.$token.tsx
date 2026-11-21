@@ -1,17 +1,20 @@
+import { brandMeta } from "@/lib/brand";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { InviteForm } from "@/components/invite";
 import { fetchInvite } from "@/lib/app.functions";
 
 export const Route = createFileRoute("/_site/invite/$token")({
-  head: () => ({
-    meta: [
-      { title: "دعوة إدارة فريق | كرة المنار" },
-      { name: "description", content: "قبول دعوة لإدارة فريق في كرة المنار." },
-      { property: "og:title", content: "دعوة إدارة فريق | كرة المنار" },
-      { property: "og:description", content: "قبول دعوة لإدارة فريق في كرة المنار." },
+  head: ({ matches }) => ({
+    meta: brandMeta([
+      { title: "دعوة إدارة فريق | منصة الفهود الرياضية" },
+      { name: "description", content: "قبول دعوة لإدارة فريق في منصة الفهود الرياضية." },
+      { property: "og:title", content: "دعوة إدارة فريق | منصة الفهود الرياضية" },
+      { property: "og:description", content: "قبول دعوة لإدارة فريق في منصة الفهود الرياضية." },
       { name: "robots", content: "noindex" },
-    ],
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ], matches),
   }),
   component: Page,
 });

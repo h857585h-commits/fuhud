@@ -1,17 +1,20 @@
+import { brandMeta } from "@/lib/brand";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { KeyRound } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/reset-password")({
-  head: () => ({
-    meta: [
-      { title: "كلمة مرور جديدة | كرة المنار" },
-      { name: "description", content: "اختر كلمة مرور جديدة لحسابك في كرة المنار." },
-      { property: "og:title", content: "كلمة مرور جديدة | كرة المنار" },
-      { property: "og:description", content: "اختر كلمة مرور جديدة لحسابك في كرة المنار." },
+  head: ({ matches }) => ({
+    meta: brandMeta([
+      { title: "كلمة مرور جديدة | منصة الفهود الرياضية" },
+      { name: "description", content: "اختر كلمة مرور جديدة لحسابك في منصة الفهود الرياضية." },
+      { property: "og:title", content: "كلمة مرور جديدة | منصة الفهود الرياضية" },
+      { property: "og:description", content: "اختر كلمة مرور جديدة لحسابك في منصة الفهود الرياضية." },
       { name: "robots", content: "noindex" },
-    ],
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ], matches),
   }),
   component: ResetPassword,
 });

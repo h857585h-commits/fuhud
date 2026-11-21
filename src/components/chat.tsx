@@ -28,7 +28,7 @@ export function ChatList() {
     .filter(r => tab === 'all' || (tab === 'requests' ? false : r.conv.kind === tab))
     .sort((a, b) => +new Date(b.last?.createdAt || b.conv.createdAt) - +new Date(a.last?.createdAt || a.conv.createdAt));
   const requests = data.requests.filter(r => r.status === 'pending');
-  if (!data.me) return <div className="panel"><EmptyState title="المراسلة للأعضاء" description="سجّل دخولك لتفتح محادثات مع جماهير وأعضاء كرة المنار." /></div>;
+  if (!data.me) return <div className="panel"><EmptyState title="المراسلة للأعضاء" description="سجّل دخولك لتفتح محادثات مع جماهير وأعضاء منصة الفهود الرياضية." /></div>;
   return <>
     <div className="page-heading"><div><div className="tagline"><Send size={12} />مراسلات المدرجات</div><h1>الرسائل</h1><p>محادثة خاصة، مجموعات، streaks 🔥 وصوت — بواجهة نظيفة.</p></div>
       <div className="flex gap-2 flex-wrap">

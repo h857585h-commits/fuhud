@@ -41,7 +41,7 @@ export function PeopleView() {
   const rows = tab === 'followers' ? followers : tab === 'following' ? following : tab === 'friends' ? data.friendIds : [];
   const title: Record<string, string> = { followers: 'متابعيَّ', following: 'أتابعهم', friends: 'أصدقائي', requests: 'طلبات الصداقة', all: 'كل الأعضاء' };
   return <>
-    <div className="page-heading"><div><div className="tagline"><Users size={12} />شبكة كرة المنار</div><h1>الأصدقاء والمتابعون</h1><p>قوائم كاملة بأسلوب فيسبوك وإنستغرام، تحت سيطرة إدارة المنصة.</p></div>
+    <div className="page-heading"><div><div className="tagline"><Users size={12} />شبكة منصة الفهود الرياضية</div><h1>الأصدقاء والمتابعون</h1><p>قوائم كاملة بأسلوب فيسبوك وإنستغرام، تحت سيطرة إدارة المنصة.</p></div>
       <span className="badge badge-muted"><Lock size={12} />{listsHidden ? "القوائم مقفلة من الإدارة" : (data.profiles.find(x => x.id === data.me?.id)?.showFollowers === false ? "قوائمي خاصة بي" : "قوائمي ظاهرة للأعضاء")}</span></div>
     <div className="tabs mb-4">{(['followers', 'following', 'friends', 'requests', 'all'] as const).map(k => <button key={k} className={`tab ${tab === k ? 'active' : ''}`} onClick={() => setTab(k)}>{title[k]}{k === 'followers' && ` (${followers.length})`}{k === 'following' && ` (${following.length})`}{k === 'friends' && ` (${data.friendIds.length})`}{k === 'requests' && requests.length ? ` (${requests.length})` : ''}</button>)}</div>
     <div className="panel">

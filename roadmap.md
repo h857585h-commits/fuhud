@@ -1,4 +1,5 @@
 # Requested updates
+- [ ] Update platform identity and make public information editable in the dashboard.
 - [ ] Poll creation, image, deadline, unique voting and live results/home section.
 - [ ] Public people directory with five tabs and full profiles.
 - [ ] Automatic match/time suspensions, lineup enforcement and penalties 5/6.

@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useLocalString, localSet } from '@/lib/use-local';
 import { ArrowLeft, ArrowRight, Bell, Check, Moon, SkipForward, Sparkles, Star, Users, Sun } from 'lucide-react';
 import { useApp } from './context';
+import { resolveBranding } from '@/lib/brand';
 import { TeamCrest } from './ui';
 import { playerStats } from '@/lib/stats';
 
@@ -25,10 +26,10 @@ export function Onboarding() {
   const [newsAlerts, setNewsAlerts] = useState(true);
   const themePref = useLocalString('manar-theme');
   const [dark, setDark] = useState(themePref === null ? true : themePref !== 'light');
-  const b = (data.branding || {}) as Record<string, string>;
-  const siteName = b.siteName?.trim() || 'كرة المنار';
-  const tagline = b.onboardingTagline?.trim() || 'منصة الفرق الشعبية في الناصرية';
-  const heroLine = b.onboardingWelcome?.trim() || 'أهلاً بك في مدرّج الناصرية';
+  const b = resolveBranding(data.branding);
+  const siteName = b.siteName?.trim() || 'منصة الفهود الرياضية';
+  const tagline = b.onboardingTagline?.trim() || 'منصة الفرق الشعبية في الفهود';
+  const heroLine = b.onboardingWelcome?.trim() || 'أهلاً بك في مدرّج الفهود';
 
   function finish() {
     localSet(KEY, 'done');
@@ -62,14 +63,14 @@ export function Onboarding() {
   }
   if (!open) return null;
   const screens = 3;
-  return <div className="onb-backdrop" role="dialog" aria-modal="true" aria-label="الترحيب في كرة المنار">
+  return <div className="onb-backdrop" role="dialog" aria-modal="true" aria-label={`الترحيب في ${siteName}`}>
     <div className="onb-card">
       <button className="icon-btn onb-skip" onClick={finish} aria-label="تخطي"><SkipForward size={15} />تخطي</button>
       {step === 0 && <div className="onb-screen">
         <div className="onb-logo"><img src={b.logo?.trim() || '/icon.svg'} alt="" width={74} height={84} /></div>
         <span className="badge badge-gold mb-3"><Sparkles size={12} />أول زيارة لك</span>
         <h1 className="onb-title">{heroLine}</h1>
-        <p className="onb-sub">{siteName} — {tagline}. مباريات، ترتيب، تشكيلات، وساحة للجماهير… بصوت أحياء الناصرية.</p>
+        <p className="onb-sub">{siteName} — {tagline}.</p>
         <div className="onb-features">{[['مباريات مباشرة ونتائج', Users], ['بوسترات جاهزة للمشاركة', Star], ['ساحة وجماهير', Bell]].map(([label, Icon], i) => { const C = Icon as typeof Users; return <div key={i} className="onb-feature"><C size={17} className="mint" /><span>{label as string}</span></div>; })}</div>
       </div>}
 

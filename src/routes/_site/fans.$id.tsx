@@ -1,14 +1,17 @@
+import { brandMeta } from "@/lib/brand";
 import { createFileRoute } from "@tanstack/react-router";
 import { PublicProfile } from "@/components/people";
 
 export const Route = createFileRoute("/_site/fans/$id")({
-  head: () => ({
-    meta: [
-      { title: "ملف مشجّع | كرة المنار" },
-      { name: "description", content: "الملف العام لعضو في مجتمع كرة المنار." },
-      { property: "og:title", content: "ملف مشجّع | كرة المنار" },
-      { property: "og:description", content: "الملف العام لعضو في مجتمع كرة المنار." },
-    ],
+  head: ({ matches }) => ({
+    meta: brandMeta([
+      { title: "ملف مشجّع | منصة الفهود الرياضية" },
+      { name: "description", content: "الملف العام لعضو في مجتمع منصة الفهود الرياضية." },
+      { property: "og:title", content: "ملف مشجّع | منصة الفهود الرياضية" },
+      { property: "og:description", content: "الملف العام لعضو في مجتمع منصة الفهود الرياضية." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ], matches),
   }),
   component: Page,
 });
