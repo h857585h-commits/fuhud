@@ -1,4 +1,5 @@
 # Requested updates
+- [x] Add the two requested Fahud leagues and their 14/13 teams, without creating fixtures.
 - [ ] Update platform identity and make public information editable in the dashboard.
 - [ ] Poll creation, image, deadline, unique voting and live results/home section.
 - [ ] Public people directory with five tabs and full profiles.
