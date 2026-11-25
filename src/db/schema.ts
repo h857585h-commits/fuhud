@@ -40,6 +40,7 @@ export const matches = pgTable('matches', {
   status: text().notNull().default('scheduled'), homeScore: integer().notNull().default(0), awayScore: integer().notNull().default(0),
   minute: integer().notNull().default(0), penaltyHome: integer(), penaltyAway: integer(), round: text().notNull().default(''), stage: text().notNull().default('league'),
   group: text().notNull().default(''), bracketSlot: integer(), refereeId: integer(), report: text().notNull().default(''), views: integer().notNull().default(0),
+  clockPeriod: text().notNull().default(''), clockStartedAt: timestamp({ withTimezone: true, mode: 'string' }),
 });
 export const matchEvents = pgTable('match_events', {
   id: integer().primaryKey().generatedByDefaultAsIdentity(), matchId: integer().notNull().references(() => matches.id, { onDelete: 'cascade' }),
@@ -111,7 +112,7 @@ export const siteSettings = pgTable('site_settings', {
   id: integer().primaryKey().generatedByDefaultAsIdentity(),
   social: jsonb('social').$type<Record<string, { url: string; handle: string }>>().notNull().default({}),
   labels: jsonb('labels').$type<Record<string, string>>().notNull().default({}),
-  moderation: jsonb('moderation').$type<{ posts: boolean; stories: boolean; comments: boolean; allowPosts?: boolean; allowComments?: boolean; allowSignup?: boolean }>().notNull().default({ posts: false, stories: false, comments: true }),
+  moderation: jsonb('moderation').$type<{ posts: boolean; stories: boolean; comments: boolean; allowPosts?: boolean; allowComments?: boolean; allowSignup?: boolean; halfMinutes?: number }>().notNull().default({ posts: false, stories: false, comments: true }),
   privacy: jsonb('privacy').$type<{ followerLists: 'public' | 'logged' | 'self' }>().notNull().default({ followerLists: 'logged' }),
   branding: jsonb('branding').$type<Record<string, string>>().notNull().default({}),
 });

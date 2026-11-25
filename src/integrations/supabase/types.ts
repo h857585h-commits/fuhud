@@ -521,6 +521,8 @@ export type Database = {
           awayId: number
           awayScore: number
           bracketSlot: number | null
+          clockPeriod: string
+          clockStartedAt: string | null
           date: string
           group: string
           homeId: number
@@ -548,6 +550,8 @@ export type Database = {
           awayId: number
           awayScore?: number
           bracketSlot?: number | null
+          clockPeriod?: string
+          clockStartedAt?: string | null
           date: string
           group?: string
           homeId: number
@@ -575,6 +579,8 @@ export type Database = {
           awayId?: number
           awayScore?: number
           bracketSlot?: number | null
+          clockPeriod?: string
+          clockStartedAt?: string | null
           date?: string
           group?: string
           homeId?: number

@@ -462,12 +462,21 @@ export async function handleSocial(action: string, p: Payload, me: CurrentUser |
     else await db.insert(s.announcements).values({ text: str(p, 'text', 500, true), tone: str(p, 'tone', 12) || 'gold', active: true });
     return NextResponse.json({ ok: true, message: 'حُدّث الشريط الإعلاني' });
   }
+  if (action === 'settings.halfMinutes') {
+    if (!isSuper) throw new Error('لمدير المنصة فقط');
+    const halfMinutes = int(p, 'halfMinutes', 5, 60);
+    const [row] = await db.select().from(s.siteSettings).limit(1);
+    const moderation = { ...(row?.moderation ?? { posts: false, stories: false, comments: true }), halfMinutes };
+    if (row) await db.update(s.siteSettings).set({ moderation }).where(eq(s.siteSettings.id, row.id)); else await db.insert(s.siteSettings).values({ moderation });
+    return NextResponse.json({ ok: true, message: `مدة الشوط أصبحت ${halfMinutes} دقيقة` });
+  }
   if (action === 'settings.save') {
     if (!isSuper) throw new Error('لمدير المنصة فقط');
     const labels: Record<string, string> = {}; for (const key of ['matches', 'teams', 'tournaments', 'standings', 'statistics', 'news', 'polls', 'archive', 'about', 'social', 'studio']) { const v = str(p, `label_${key}`, 40); if (v) labels[key] = v; }
     const moderation = { posts: p.moderatePosts === true, stories: p.moderateStories === true, comments: p.moderateComments !== false, allowPosts: p.allowPosts !== false, allowComments: p.allowComments !== false, allowSignup: p.allowSignup !== false };
     const followerLists: 'public' | 'logged' | 'self' = p.followerLists === 'public' ? 'public' : p.followerLists === 'self' ? 'self' : 'logged';
     const [row] = await db.select().from(s.siteSettings).limit(1);
+    if (row?.moderation?.halfMinutes) Object.assign(moderation, { halfMinutes: row.moderation.halfMinutes });
     const values = { labels: Object.keys(labels).length || p.saveLabels === true ? labels : (row?.labels ?? {}), moderation, privacy: { followerLists } };
     if (row) await db.update(s.siteSettings).set(values).where(eq(s.siteSettings.id, row.id)); else await db.insert(s.siteSettings).values(values);
     return NextResponse.json({ ok: true, message: 'حُدّثت إعدادات الواجهة والصلاحيات' });

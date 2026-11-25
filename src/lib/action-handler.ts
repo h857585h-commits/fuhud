@@ -93,6 +93,8 @@ export async function POST(request: NextRequest) {
     const findTeam = async (id: number) => { const [t] = await db.select().from(s.teams).where(eq(s.teams.id, id)); if (!t) throw new Error('الفريق غير موجود'); return t; };
     const findPlayer = async (id: number) => { const [player] = await db.select().from(s.players).where(eq(s.players.id, id)); if (!player) throw new Error('اللاعب غير موجود'); return player; };
     const findMatch = async (id: number) => { const [m] = await db.select().from(s.matches).where(eq(s.matches.id, id)); if (!m) throw new Error('المباراة غير موجودة'); return m; };
+    const matchTitle = async (m: { homeId: number; awayId: number; homeScore: number; awayScore: number }) => { const teams = await db.select({ id: s.teams.id, name: s.teams.name }).from(s.teams).where(inArray(s.teams.id, [m.homeId, m.awayId])); const n = (id: number) => teams.find(t => t.id === id)?.name || ''; return `${n(m.homeId)} ${m.homeScore} - ${m.awayScore} ${n(m.awayId)}`; };
+    const broadcastMatch = async (matchId: number, text: string) => { try { const users = await db.select({ id: s.users.id }).from(s.users).where(eq(s.users.banned, false)); const rows = users.filter(u => u.id !== me.id).map(u => ({ userId: u.id, actorId: me.id, kind: 'match', text, href: `/matches/${matchId}` })); for (let i = 0; i < rows.length; i += 200) await db.insert(s.notifications).values(rows.slice(i, i + 200)); } catch { /* notifications must never block match updates */ } };
     const socialResponse = await handleSocial(action, p, me);
     if (socialResponse) return socialResponse;
     if (action === 'admin.permissions') {
@@ -338,13 +340,25 @@ export async function POST(request: NextRequest) {
         await db.update(s.matches).set({ status, homeScore, awayScore, minute: status === 'finished' ? 90 : num(p, 'minute', 0, 120), penaltyHome: p.penaltyHome === '' || p.penaltyHome === undefined ? null : num(p, 'penaltyHome', 0, 30), penaltyAway: p.penaltyAway === '' || p.penaltyAway === undefined ? null : num(p, 'penaltyAway', 0, 30), ...(p.report !== undefined ? { report: text(p, 'report', 6000, false) } : {}) }).where(eq(s.matches.id, id));
         await advanceMatch(id); break;
       }
+      case 'match.clock': {
+        allow('canEditMatches'); const id = num(p, 'id'); const m = await findMatch(id); const step = text(p, 'step');
+        const [cfg] = await db.select({ moderation: s.siteSettings.moderation }).from(s.siteSettings).limit(1); const half = cfg?.moderation?.halfMinutes || 45;
+        const now = new Date().toISOString(); const title = await matchTitle(m);
+        if (step === 'first') { await db.update(s.matches).set({ status: 'live', clockPeriod: 'first', clockStartedAt: now, minute: 0 }).where(eq(s.matches.id, id)); await broadcastMatch(id, `انطلقت المباراة: ${title}`); }
+        else if (step === 'half') { await db.update(s.matches).set({ status: 'live', clockPeriod: 'half', clockStartedAt: null, minute: half }).where(eq(s.matches.id, id)); await broadcastMatch(id, `نهاية الشوط الأول: ${title}`); }
+        else if (step === 'second') { await db.update(s.matches).set({ status: 'live', clockPeriod: 'second', clockStartedAt: now, minute: half }).where(eq(s.matches.id, id)); await broadcastMatch(id, `انطلق الشوط الثاني: ${title}`); }
+        else if (step === 'end') { await db.update(s.matches).set({ status: 'finished', clockPeriod: 'ended', clockStartedAt: null, minute: half * 2 }).where(eq(s.matches.id, id)); await broadcastMatch(id, `نهاية المباراة: ${title}`); await advanceMatch(id); }
+        else throw new Error('خطوة غير صالحة'); break;
+      }
       case 'event.add': {
         const matchIdForRef = num(p, 'matchId'); if (!can('canEditMatches') && !can('canRefereeAnyMatch') && !(await canOfficiate(matchIdForRef))) throw new Error('تعديل الأحداث متاح لمدير المنصة، أو من يملك صلاحية تعديل المباريات، أو حكم المباراة المعتمد');
         const m = await findMatch(matchIdForRef); const teamId = num(p, 'teamId'); if (![m.homeId, m.awayId].includes(teamId)) throw new Error('الفريق ليس طرفاً في المباراة');
         const type = text(p, 'type'); if (!['goal', 'yellow', 'red', 'own-goal', 'sub'].includes(type)) throw new Error('نوع الحدث غير صالح');
         const player = await findPlayer(num(p, 'playerId')); if (player.teamId !== teamId) throw new Error('اللاعب لا ينتمي إلى الفريق المحدد');
         const assistId = p.assistId ? num(p, 'assistId') : null; if (assistId && (await findPlayer(assistId)).teamId !== teamId) throw new Error('صانع الهدف لا ينتمي إلى الفريق');
-        const addedEvent = await db.transaction(async tx => { const [row] = await tx.insert(s.matchEvents).values({ matchId: m.id, teamId, playerId: player.id, assistId: type === 'goal' ? assistId : null, type, minute: num(p, 'minute', 1, 120) }).returning(); if (type === 'goal' || type === 'own-goal') { const scoring = type === 'own-goal' ? (teamId === m.homeId ? 'awayScore' : 'homeScore') : teamId === m.homeId ? 'homeScore' : 'awayScore'; await tx.update(s.matches).set({ [scoring]: m[scoring] + 1, status: m.status === 'scheduled' ? 'live' : m.status }).where(eq(s.matches.id, m.id)); } return row; }); result.id = addedEvent.id; break;
+        const addedEvent = await db.transaction(async tx => { const [row] = await tx.insert(s.matchEvents).values({ matchId: m.id, teamId, playerId: player.id, assistId: type === 'goal' ? assistId : null, type, minute: num(p, 'minute', 1, 120) }).returning(); if (type === 'goal' || type === 'own-goal') { const scoring = type === 'own-goal' ? (teamId === m.homeId ? 'awayScore' : 'homeScore') : teamId === m.homeId ? 'homeScore' : 'awayScore'; await tx.update(s.matches).set({ [scoring]: m[scoring] + 1, status: m.status === 'scheduled' ? 'live' : m.status }).where(eq(s.matches.id, m.id)); } return row; }); result.id = addedEvent.id;
+        { const fresh = await findMatch(m.id); const label = ({ goal: '⚽ هدف', 'own-goal': '⚽ هدف عكسي', yellow: '🟨 بطاقة صفراء', red: '🟥 بطاقة حمراء', sub: '🔁 تبديل' } as Record<string, string>)[type]; await broadcastMatch(m.id, `${label} ${player.name} (${addedEvent.minute}′) — ${await matchTitle(fresh)}`); }
+        break;
       }
       case 'event.delete': {
         const [ev] = await db.select().from(s.matchEvents).where(eq(s.matchEvents.id, num(p, 'id'))); if (ev && !can('canEditMatches') && !can('canRefereeAnyMatch') && !(await canOfficiate(ev.matchId))) throw new Error('تعديل الأحداث متاح لمدير المنصة، أو من يملك صلاحية تعديل المباريات، أو حكم المباراة المعتمد'); if (!ev) break; const m = await findMatch(ev.matchId);
