@@ -17,10 +17,21 @@ export type Post = typeof s.posts.$inferSelect;
 export type Story = typeof s.stories.$inferSelect;
 export type Profile = { id: number; name: string; username: string; avatar: string; bio: string; socials: Record<string, string>; verified: boolean; role: string; teamId: number | null; showFollowers: boolean; createdAt: string; badge: string; badgeTeamId: number | null; permissions: Record<string, boolean>; verifiedAt: string | null; verifiedNote: string; verifiedByName: string | null };
 
+const teamsSafeSelect = () => db.select({
+  id: s.teams.id, name: s.teams.name, shortName: s.teams.shortName,
+  neighborhood: s.teams.neighborhood, founded: s.teams.founded,
+  stadium: s.teams.stadium, manager: s.teams.manager, color: s.teams.color,
+  awayColor: s.teams.awayColor, emblem: s.teams.emblem, bio: s.teams.bio,
+  achievements: s.teams.achievements,
+  logo: sql<string>`case when length(${s.teams.logo}) > 2000 then '' else ${s.teams.logo} end`.as('logo'),
+  approved: s.teams.approved, views: s.teams.views,
+}).from(s.teams);
+
 async function loadCore() {
   await ensureSeeded();
   const [teams, players, tournaments, matches, events, lineups, news, gallery, comments, polls, pollVotes, motmVotes, referees, careers, users, invites, seasons, settingsRow, me] = await Promise.all([
-    db.select().from(s.teams), db.select().from(s.players), db.select().from(s.tournaments), db.select().from(s.matches), db.select().from(s.matchEvents), db.select().from(s.lineups),
+    teamsSafeSelect(), db.select().from(s.players), db.select().from(s.tournaments), db.select().from(s.matches), db.select().from(s.matchEvents), db.select().from(s.lineups),
+
     db.select().from(s.news).orderBy(desc(s.news.createdAt)), db.select().from(s.gallery), db.select().from(s.comments).orderBy(desc(s.comments.createdAt)), db.select().from(s.polls),
     db.select().from(s.pollVotes), db.select().from(s.motmVotes), db.select().from(s.referees), db.select().from(s.careers), db.select().from(s.users), db.select().from(s.invites),
     db.select().from(s.seasons).orderBy(desc(s.seasons.createdAt)), db.select().from(s.siteSettings).limit(1), getCurrentUser(),
