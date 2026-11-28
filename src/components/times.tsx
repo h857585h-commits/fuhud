@@ -35,7 +35,7 @@ export function ClockText({ date }: { date: string | Date }) {
 /** Live match clock label, ticking from the stored half start; past the half length shows added time (45+2). */
 export function matchClockLabel(m: { status: string; minute: number; clockPeriod?: string | null; clockStartedAt?: string | null }, half: number, now: number) {
   if (m.clockPeriod === 'half') return 'استراحة';
-  if ((m.clockPeriod === 'first' || m.clockPeriod === 'second') && m.clockStartedAt) {
+  if ((m.clockPeriod === 'first' || m.clockPeriod === 'second') && m.clockStartedAt && typeof m.clockStartedAt === 'string') {
     const elapsed = Math.max(0, Math.floor((now - new Date(m.clockStartedAt).getTime()) / 60000)) + 1;
     const base = m.clockPeriod === 'first' ? 0 : half, limit = base + half, minute = base + elapsed;
     return minute > limit ? `${limit}+${minute - limit}′` : `${minute}′`;
